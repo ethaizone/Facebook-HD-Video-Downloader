@@ -48,7 +48,7 @@
                 if (video_data.hd_src)
                 {
                     var hd_link = document.createElement('a');
-                    hd_link.href = video_data.hd_src.replace("https://", "http://");
+                    hd_link.href = video_data.hd_src;
                     hd_link.innerHTML = 'Download HD Video';
                     hd_link.className = 'fbPhotosPhotoActionsItem';
                     hd_link.download = title + '_hd.mp4';
@@ -59,7 +59,7 @@
                 if (video_data.sd_src)
                 {
                     var sd_link = document.createElement('a');
-                    sd_link.href = video_data.sd_src.replace("https://", "http://");
+                    sd_link.href = video_data.sd_src;
                     sd_link.innerHTML = 'Download SD Video';
                     sd_link.className = 'fbPhotosPhotoActionsItem';
                     sd_link.download = title + '_sd.mp4';
