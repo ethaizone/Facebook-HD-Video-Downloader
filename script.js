@@ -18,7 +18,7 @@
 
 (function () {
 
-    function renderFBDownloader() {
+    function renderFBDownloader(counter) {
 
         // Get the side bar so we can append to it later
         var sidebar = document.getElementById('fbPhotoPageActions');
@@ -71,23 +71,24 @@
 
         } // end loop
 
-        if (!found) {
+        if (!found && counter > 20) {
             var not_found = document.createElement('span');
             not_found.innerHTML = 'No download link :(';
             sidebar.appendChild(not_found);
         }
+        
+        return found;
     }
 
+    var counter = 0;
     function doExec() {
+        counter++;
         try {
-            log("Find flashvars.");
-            var embedElements = document.querySelectorAll('embed[flashvars]');
-
-            if (embedElements.length > 0) {
-                renderFBDownloader();
+            log("Find flashvars. " + counter);
+            if (renderFBDownloader(counter) == true) {
                 log("Video links rendered.");
             } else {
-                setTimeout(doExec, 200);
+                setTimeout(doExec, 1000);
                 log("Try again.");
             }
         } catch(e) {
@@ -96,9 +97,9 @@
     }
 
     function log(msg) {
-        // console.log("[FB Video Downloader] " + msg);
+        //alert(msg);
+        console.log("[FB Video Downloader] " + msg);
     }
-
     log("First Start.");
     doExec();
 })();
