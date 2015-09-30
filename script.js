@@ -21,7 +21,6 @@
     function renderFBDownloader(counter) {
 
         // Get the side bar so we can append to it later
-        var sidebar = document.getElementById('fbPhotoPageActions');
 
         // Get all the <embed> elements
         var embedElements = document.querySelectorAll('embed[flashvars]');
@@ -46,6 +45,8 @@
 
 
                 setTimeout(function(){
+                    var sidebar = document.getElementById('fbPhotoPageActions');
+
                     // High Def
                     if (video_data.hd_src)
                     {
@@ -67,15 +68,16 @@
                         sd_link.download = title + '_sd.mp4';
                         sidebar.appendChild(sd_link);
                     }
+                    console.log(video_data, sidebar);
                 }, 3000);
 
-                console.log(video_data, sidebar);
                 found = true;
             } // end if
 
         } // end loop
 
         if (!found && counter > 20) {
+            var sidebar = document.getElementById('fbPhotoPageActions');
             var not_found = document.createElement('span');
             not_found.innerHTML = 'No download link :(';
             sidebar.appendChild(not_found);
