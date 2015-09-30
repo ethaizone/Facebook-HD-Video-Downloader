@@ -65,7 +65,7 @@
                     sd_link.download = title + '_sd.mp4';
                     sidebar.appendChild(sd_link);
                 }
-
+                console.log(video_data, sidebar);
                 found = true;
             } // end if
 
@@ -101,5 +101,5 @@
         console.log("[FB Video Downloader] " + msg);
     }
     log("First Start.");
-    doExec();
+    setTimeout(doExec, 3000);
 })();
