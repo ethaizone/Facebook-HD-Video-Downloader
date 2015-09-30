@@ -44,27 +44,31 @@
                 //var title = video_data.video_id;
                 var title = document.querySelectorAll('h2.uiHeaderTitle')[0].innerText;
 
-                // High Def
-                if (video_data.hd_src)
-                {
-                    var hd_link = document.createElement('a');
-                    hd_link.href = video_data.hd_src;
-                    hd_link.innerHTML = 'Download HD Video';
-                    hd_link.className = 'fbPhotosPhotoActionsItem';
-                    hd_link.download = title + '_hd.mp4';
-                    sidebar.appendChild(hd_link);
-                }
 
-                // Low Def
-                if (video_data.sd_src)
-                {
-                    var sd_link = document.createElement('a');
-                    sd_link.href = video_data.sd_src;
-                    sd_link.innerHTML = 'Download SD Video';
-                    sd_link.className = 'fbPhotosPhotoActionsItem';
-                    sd_link.download = title + '_sd.mp4';
-                    sidebar.appendChild(sd_link);
-                }
+                setTimeout(function(){
+                    // High Def
+                    if (video_data.hd_src)
+                    {
+                        var hd_link = document.createElement('a');
+                        hd_link.href = video_data.hd_src;
+                        hd_link.innerHTML = 'Download HD Video';
+                        hd_link.className = 'fbPhotosPhotoActionsItem';
+                        hd_link.download = title + '_hd.mp4';
+                        sidebar.appendChild(hd_link);
+                    }
+
+                    // Low Def
+                    if (video_data.sd_src)
+                    {
+                        var sd_link = document.createElement('a');
+                        sd_link.href = video_data.sd_src;
+                        sd_link.innerHTML = 'Download SD Video';
+                        sd_link.className = 'fbPhotosPhotoActionsItem';
+                        sd_link.download = title + '_sd.mp4';
+                        sidebar.appendChild(sd_link);
+                    }
+                }, 3000);
+
                 console.log(video_data, sidebar);
                 found = true;
             } // end if
@@ -101,5 +105,5 @@
         console.log("[FB Video Downloader] " + msg);
     }
     log("First Start.");
-    setTimeout(doExec, 3000);
+    doExec();
 })();
