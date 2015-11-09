@@ -39,37 +39,37 @@
                 // This string contains the payload we are looking for so parse it
                 var obj = JSON.parse(flashvars.slice(7, p_width_index));
                 var video_data = obj.video_data[0];
+                if (typeof video_data == 'undefined') {
+                    video_data = obj.video_data.progressive[0];
+                }
 
                 //var title = video_data.video_id;
                 var title = document.querySelectorAll('h2.uiHeaderTitle')[0].innerText;
 
 
-                setTimeout(function(){
-                    var sidebar = document.getElementById('fbPhotoPageActions');
+                var sidebar = document.getElementById('fbPhotoPageActions');
 
-                    // High Def
-                    if (video_data.hd_src)
-                    {
-                        var hd_link = document.createElement('a');
-                        hd_link.href = video_data.hd_src;
-                        hd_link.innerHTML = 'Download HD Video';
-                        hd_link.className = 'fbPhotosPhotoActionsItem';
-                        hd_link.download = title + '_hd.mp4';
-                        sidebar.appendChild(hd_link);
-                    }
+                // High Def
+                if (video_data.hd_src)
+                {
+                    var hd_link = document.createElement('a');
+                    hd_link.href = video_data.hd_src;
+                    hd_link.innerHTML = 'Download HD Video';
+                    hd_link.className = 'fbPhotosPhotoActionsItem fb_download_link_ethaizone';
+                    hd_link.download = title + '_hd.mp4';
+                    sidebar.appendChild(hd_link);
+                }
 
-                    // Low Def
-                    if (video_data.sd_src)
-                    {
-                        var sd_link = document.createElement('a');
-                        sd_link.href = video_data.sd_src;
-                        sd_link.innerHTML = 'Download SD Video';
-                        sd_link.className = 'fbPhotosPhotoActionsItem';
-                        sd_link.download = title + '_sd.mp4';
-                        sidebar.appendChild(sd_link);
-                    }
-                    console.log(video_data, sidebar);
-                }, 3000);
+                // Low Def
+                if (video_data.sd_src)
+                {
+                    var sd_link = document.createElement('a');
+                    sd_link.href = video_data.sd_src;
+                    sd_link.innerHTML = 'Download SD Video';
+                    sd_link.className = 'fbPhotosPhotoActionsItem fb_download_link_ethaizone';
+                    sd_link.download = title + '_sd.mp4';
+                    sidebar.appendChild(sd_link);
+                }
 
                 found = true;
             } // end if
@@ -83,21 +83,31 @@
             sidebar.appendChild(not_found);
         }
         
-        return found;
+        return checkDownloadLinkExists();
+    }
+
+    function checkDownloadLinkExists() {
+        return (document.getElementsByClassName("fb_download_link_ethaizone").length > 0);
     }
 
     var counter = 0;
     function doExec() {
+        if (checkDownloadLinkExists()) {
+            log("Video links rendered. (Last check!)");
+            return true;
+        }
         counter++;
         try {
             log("Find flashvars. " + counter);
             if (renderFBDownloader(counter) == true) {
                 log("Video links rendered.");
             } else {
-                setTimeout(doExec, 1000);
                 log("Try again.");
             }
+            setTimeout(doExec, 1000);
         } catch(e) {
+            log("Found error!");
+            console.log(e);
             //setTimeout(doExec, 1000);
         }
     }
@@ -107,5 +117,5 @@
         console.log("[FB Video Downloader] " + msg);
     }
     log("First Start.");
-    doExec();
+    window.onload = doExec;
 })();
