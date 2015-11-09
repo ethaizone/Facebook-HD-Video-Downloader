@@ -117,5 +117,5 @@
         console.log("[FB Video Downloader] " + msg);
     }
     log("First Start.");
-    window.onload = doExec;
+    doExec();
 })();
