@@ -327,7 +327,7 @@ var css = "\
                     insertAfter(link[0], videoElements[i]);
                 } else if (typeof video_data.sd_src != 'undefined' && video_data.sd_src)
                 {
-                    link.append('Download (SD)');
+                    link.append('<span class="status">Download (SD)</span>');
                     link.on('click', function(){
                         if (link.data('dl') == true) {
                             alert('It\'s downloading. Please wait.');
