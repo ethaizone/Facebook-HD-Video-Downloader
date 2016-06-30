@@ -15,7 +15,7 @@
 // @include     https://facebook.com/*/videos/*
 // @include     https://*.facebook.com/*/videos/*
 // @include     https://*.facebook.com/*
-// @version 0.1.5
+// @version 0.1.6
 // @namespace https://greasyfork.org/users/3747
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // ==/UserScript==
@@ -362,11 +362,16 @@ var css = "\
     }
 
     var counter = 0;
-    var delay = 1000;
+    var delay = 1500;
     function doExec() {
+        if (jQuery('#mainContainer').length < 1) {
+            log('No maincontaimer.');
+            return;
+        }
         counter++;
         try {
-            if (renderFBDownloader(counter) !== 0 && delay == 1000) {
+            var found = renderFBDownloader(counter);
+            if (found !== 0 && delay == 1000) {
                 delay = 3000;
                 log('First found. Decrease delay. ('+ delay +')');
             }
@@ -375,9 +380,10 @@ var css = "\
                 delay = 5000;
                 log('Too long and not found anything. Decrease delay. ('+ delay +')');
             }
-            if (counter < 30) {
-                setTimeout(doExec, delay);
-            }
+            // if (counter < 30) {
+            //     setTimeout(doExec, delay);
+            // }
+            setTimeout(doExec, delay);
             // log('Check!! No:'+counter+' Found: ' + renderFBDownloader(counter));
         } catch(e) {
             log("Found error!");
