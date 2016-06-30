@@ -373,7 +373,7 @@ var css = "\
 
             if (counter > 10 && delay == 1000) {
                 delay = 5000;
-                log('Too long and not found anything. Decrease delay. ('+ delay +')';
+                log('Too long and not found anything. Decrease delay. ('+ delay +')');
             }
             setTimeout(doExec, delay);
             // log('Check!! No:'+counter+' Found: ' + renderFBDownloader(counter));
