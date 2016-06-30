@@ -15,7 +15,7 @@
 // @include     https://facebook.com/*/videos/*
 // @include     https://*.facebook.com/*/videos/*
 // @include     https://*.facebook.com/*
-// @version 0.1.1
+// @version 0.1.2
 // @namespace https://greasyfork.org/users/3747
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // ==/UserScript==
@@ -184,8 +184,7 @@
     }; /* end download() */
 }));
 
-// var FBVIDEODOWNLOADINIT = FBVIDEODOWNLOADINIT || false;
-
+// My code
 (function () {
 
     function insertAfter(newNode, referenceNode) {
@@ -201,18 +200,6 @@
     if (! document.URL.match(patternfbh)) {
         return;
     }
-
-    // if (FBVIDEODOWNLOADINIT == true) {
-    //     return;
-    // }
-
-    // FBVIDEODOWNLOADINIT = true;
-
-    if (jQuery('body').attr('fb-video-dl-init')) {
-        return;
-    }
-
-    jQuery('body').attr('fb-video-dl-init', 'yes');
 
     jQuery('head').append('<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">');
 
@@ -268,9 +255,6 @@ var css = "\
         var videoElements = document.querySelectorAll('video:not([fb_download_link_ethaizone])');
         var embedElements = document.querySelectorAll('embed[flashvars]');
 
-        // Flag if we found the video url or not
-        var found = false;
-
         for (var i = 0; i < videoElements.length; i++) {
 
             var embed = videoElements[i].querySelectorAll('embed[flashvars]');
@@ -307,7 +291,6 @@ var css = "\
                 link.attr('fb_download_link_ethaizone');
                 link.append(iconDownload[0].outerHTML);
                 link.append('&nbsp;');
-                //var sidebar = document.getElementById('fbPhotoPageActions');
 
                 // High Def
                 if (video_data.hd_src)
@@ -356,19 +339,11 @@ var css = "\
                     insertAfter(link[0], videoElements[i]);
                 }
 
-                log('Success');
-                found = true;
+                log('Success.');
             } // end if
 
         } // end loop
 
-        // if (!found && counter > 20) {            
-        //     var not_found = document.createElement('span');
-        //     not_found.innerHTML = 'No download link :(';
-        //     base.appendChild(not_found);
-        // }
-        
-        // return checkDownloadLinkExists();
         return videoElements.length;
     }
 
@@ -377,6 +352,7 @@ var css = "\
     }
 
     var counter = 0;
+    var firstFound = false;
     function doExec() {
         // if (checkDownloadLinkExists()) {
         //     log("Video links rendered. (Last check!)");
@@ -390,8 +366,11 @@ var css = "\
             // } else {
             //     log("Try again.");
             // }
-            renderFBDownloader(counter);
-            setTimeout(doExec, 1500);
+            if (renderFBDownloader(counter) !== 0 && firstFound == false) {
+                firstFound = true;
+                log('First found. Decrease delay.');
+            }
+            setTimeout(doExec, firstFound ? 3000 : 1000);
             // log('Check!! No:'+counter+' Found: ' + renderFBDownloader(counter));
         } catch(e) {
             log("Found error!");
@@ -404,6 +383,6 @@ var css = "\
         //alert(msg);
         console.log("[FB Video Downloader] " + msg);
     }
-    log("First Start.");
+    log("First start.");
     doExec();
 })();
