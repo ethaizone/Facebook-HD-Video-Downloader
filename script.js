@@ -14,7 +14,7 @@
 // @include     http://*.facebook.com/*/videos/*
 // @include     https://facebook.com/*/videos/*
 // @include     https://*.facebook.com/*/videos/*
-// @version 0.0.1.20151109032224
+// @version 0.0.2
 // @namespace https://greasyfork.org/users/3747
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // ==/UserScript==
