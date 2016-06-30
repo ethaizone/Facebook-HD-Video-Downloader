@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name            Facebook HD Video Downloader
-// @description     Adds a download link for Facebook videos. Works for HD videos. Fork from styfle version.
+// @description     Adds a download link for Facebook videos. Works for HD videos. Fork from styfle version. NEW!! Work on all page.
 // @author          EThaiZone
 // @include     http://facebook.com/video.php*
 // @include     http://*.facebook.com/video.php*
