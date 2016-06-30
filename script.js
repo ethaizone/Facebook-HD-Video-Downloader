@@ -15,7 +15,7 @@
 // @include     https://facebook.com/*/videos/*
 // @include     https://*.facebook.com/*/videos/*
 // @include     https://*.facebook.com/*
-// @version 0.1.0
+// @version 0.1.1
 // @namespace https://greasyfork.org/users/3747
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // ==/UserScript==
@@ -230,7 +230,7 @@ var css = "\
     padding: 2px 4px 2px 4px;\
     background: white;\
     border-radius: 4px;\
-    opacity: 0.3;\
+    opacity: 0.5;\
     transition: opacity .25s ease-in-out;\
     -moz-transition: opacity .25s ease-in-out;\
     -webkit-transition: opacity .25s ease-in-out;\
