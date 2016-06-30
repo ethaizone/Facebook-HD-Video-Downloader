@@ -15,7 +15,7 @@
 // @include     https://facebook.com/*/videos/*
 // @include     https://*.facebook.com/*/videos/*
 // @include     https://*.facebook.com/*
-// @version 0.1.4
+// @version 0.1.5
 // @namespace https://greasyfork.org/users/3747
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // ==/UserScript==
@@ -375,7 +375,9 @@ var css = "\
                 delay = 5000;
                 log('Too long and not found anything. Decrease delay. ('+ delay +')');
             }
-            setTimeout(doExec, delay);
+            if (counter < 30) {
+                setTimeout(doExec, delay);
+            }
             // log('Check!! No:'+counter+' Found: ' + renderFBDownloader(counter));
         } catch(e) {
             log("Found error!");
