@@ -15,7 +15,7 @@
 // @include     https://facebook.com/*/videos/*
 // @include     https://*.facebook.com/*/videos/*
 // @include     https://*.facebook.com/*
-// @version 0.1.2
+// @version 0.1.3
 // @namespace https://greasyfork.org/users/3747
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // ==/UserScript==
@@ -276,11 +276,21 @@ var css = "\
             if (hd_src_index > -1 && p_width_index > -1) {
                 // This string contains the payload we are looking for so parse it
                 var obj = JSON.parse(flashvars.slice(7, p_width_index));
+
+                if (typeof obj.video_data.progressive == 'undefined') {
+                    log('Something wrong in obj.');
+                    console.log(obj);
+                    continue;
+                }
                 var video_data = obj.video_data.progressive;
 
                 //console.log(video_data);
                 
-                var title = video_data.video_id;
+                if (typeof video_data.video_id == 'undefined') {
+                    console.log(video_data);
+                } else {
+                    var title = video_data.video_id;
+                }
                 //var title = document.querySelectorAll('h2.uiHeaderTitle')[0].innerText;
 
                 // thank css style from fork of nhtera.
@@ -293,7 +303,7 @@ var css = "\
                 link.append('&nbsp;');
 
                 // High Def
-                if (video_data.hd_src)
+                if (typeof video_data.hd_src != 'undefined' && video_data.hd_src)
                 {
                     link.append('<span class="status">Download (HD)</span>');
                     link.on('click', function(){
@@ -315,7 +325,7 @@ var css = "\
                             x.send();
                     });
                     insertAfter(link[0], videoElements[i]);
-                } else if (video_data.sd_src)
+                } else if (typeof video_data.sd_src != 'undefined' && video_data.sd_src)
                 {
                     link.append('Download (SD)');
                     link.on('click', function(){
@@ -337,6 +347,10 @@ var css = "\
                             x.send();
                     });
                     insertAfter(link[0], videoElements[i]);
+                } else {
+                    log('Something wrong in video_data.');
+                    console.log(video_data);
+                    continue;
                 }
 
                 log('Success.');
@@ -347,30 +361,21 @@ var css = "\
         return videoElements.length;
     }
 
-    function checkDownloadLinkExists() {
-        return (document.getElementsByClassName("fb_download_link_ethaizone").length > 0);
-    }
-
     var counter = 0;
-    var firstFound = false;
+    var delay = 1000;
     function doExec() {
-        // if (checkDownloadLinkExists()) {
-        //     log("Video links rendered. (Last check!)");
-        //     return true;
-        // }
         counter++;
         try {
-            // log("Find flashvars. " + counter);
-            // if (renderFBDownloader(counter) == true) {
-            //     log("Video links rendered.");
-            // } else {
-            //     log("Try again.");
-            // }
-            if (renderFBDownloader(counter) !== 0 && firstFound == false) {
-                firstFound = true;
-                log('First found. Decrease delay.');
+            if (renderFBDownloader(counter) !== 0 && delay == 1000) {
+                delay = 3000;
+                log('First found. Decrease delay. ('+ delay +')');
             }
-            setTimeout(doExec, firstFound ? 3000 : 1000);
+
+            if (counter > 10 && delay == 1000) {
+                delay = 5000;
+                log('Too long and not found anything. Decrease delay. ('+ delay +')';
+            }
+            setTimeout(doExec, delay);
             // log('Check!! No:'+counter+' Found: ' + renderFBDownloader(counter));
         } catch(e) {
             log("Found error!");
