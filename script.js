@@ -225,23 +225,8 @@ var css = "\
 
     jQuery('head').append('<style type="text/css">' + css + '</style>');
 
-    // add svg icon download definition
-    // jQuery('body').prepend('<symbol id="icon-cloud-download" viewBox="0 0 32 32">'
-    //     + '<path class="path1" d="M27.844 11.252c-0.101-4.022-3.389-7.252-7.433-7.252-2.369 0-4.477 1.109-5.839 2.835-0.764-0.987-1.959-1.624-3.303-1.624-2.307 0-4.176 1.871-4.176 4.179 0 0.201 0.015 0.399 0.043 0.592-0.351-0.063-0.711-0.098-1.080-0.098-3.344-0-6.054 2.712-6.054 6.058s2.71 6.058 6.054 6.058h2.868l7.078 7.328 7.078-7.328 3.484-0c3.004-0.006 5.438-2.444 5.438-5.451 0-2.565-1.771-4.716-4.156-5.296zM16 26l-6-6h4v-6h4v6h4l-6 6z"></path>'
-    //     +'</symbol>');
-
     var iconDownload = jQuery('<div/>');
-    // // iconDownload.attr('src', 'https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/svgs/fi-download.svg');
-    // iconDownload.css('background-color', 'white');
-    // iconDownload.css('-webkit-mask-image', 'url(//cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/svgs/fi-download.svg)');
-    // iconDownload.css('mask-image', 'url(//cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/svgs/fi-download.svg)');
-
     iconDownload = jQuery('<i class="fa fa-download dl"></i>');
-    // iconDownload.css('display', 'inline-block');
-    // iconDownload.css('width', '1em');
-    // iconDownload.css('height', '1em');
-
-     // src="" style="display: inline-block; width: 1em; height: 1em; stroke-width: 0; stroke: currentColor; fill: currentColor;">');
     
     function renderFBDownloader(counter) {
 
@@ -305,15 +290,7 @@ var css = "\
                 // High Def
                 if (video_data.hd_src)
                 {
-                    console.log(iconDownload.html());
-                    // var hd_link = document.createElement('a');
-                    // hd_link.href = video_data.hd_src;
-                    // hd_link.onclick = "window.open('"+ video_data.hd_src +"');";
-                    // hd_link.innerHTML = 'Download (HD)';
-                    // hd_link.className = 'fbPhotosPhotoActionsItem fb_download_link_ethaizone';
                     link.append('<span class="status">Download (HD)</span>');
-                    // link.attr('href',  video_data.hd_src);
-                    // link.attr('download',  title + '_hd.mp4');
                     link.on('click', function(){
                         if (link.data('dl') == true) {
                             alert('It\'s downloading. Please wait.');
@@ -331,20 +308,11 @@ var css = "\
                                 download(x.response, title + '_hd.mp4', x.response.type );
                             };
                             x.send();
-                        // download(video_data.hd_src, title + '_hd.mp4');
                     });
                     insertAfter(link[0], videoElements[i]);
                 } else if (video_data.sd_src)
                 {
-                // Low Def
-                    // var sd_link = document.createElement('a');
-                    sd_link.href = video_data.sd_src;
-                    // sd_link.onclick = "window.open('"+ video_data.sd_src +"');";
-                    // sd_link.innerHTML = 'Download (SD)';
-                    // sd_link.className = 'fbPhotosPhotoActionsItem fb_download_link_ethaizone';
                     link.append('Download (SD)');
-                    // link.attr('href',  video_data.sd_src);
-                    // link.attr('download',  title + '_sd.mp4');
                     link.on('click', function(){
                         if (link.data('dl') == true) {
                             alert('It\'s downloading. Please wait.');
@@ -362,9 +330,7 @@ var css = "\
                                 download(x.response, title + '_sd.mp4', x.response.type );
                             };
                             x.send();
-                        // download(video_data.sd_src, title + '_hd.mp4');
                     });
-                    // sd_link.download = title + '_sd.mp4';
                     insertAfter(link[0], videoElements[i]);
                 }
 
