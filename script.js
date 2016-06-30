@@ -14,13 +14,30 @@
 // @include     http://*.facebook.com/*/videos/*
 // @include     https://facebook.com/*/videos/*
 // @include     https://*.facebook.com/*/videos/*
+// @version 0.0.1.20151109032224
+// @namespace https://greasyfork.org/users/3747
+// @require http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // ==/UserScript==
+
 
 (function () {
 
+    if (typeof jQuery == 'undefined') {
+        alert('[Facebook HD Video Downloader]\n\nYour greasemonkey or tampermonkey is too old. Please update.');
+        return;
+    }
+    
     function renderFBDownloader(counter) {
 
-        // Get the side bar so we can append to it later
+        // Get the base so we can append to it later
+        var base = jQuery('.comment_link').parent('span').parent('div');
+        if (base.length === 0) {
+            base = jQuery('.UFILikeLink').parent('div').parent('span').parent('div'); // check link like 
+        }
+        if (base.length === 0) {
+            base = jQuery('.userContent'); // or else I will attach to userContent.
+        }
+        base = base[0];
 
         // Get all the <embed> elements
         var embedElements = document.querySelectorAll('embed[flashvars]');
@@ -38,16 +55,15 @@
             if (hd_src_index > -1 && p_width_index > -1) {
                 // This string contains the payload we are looking for so parse it
                 var obj = JSON.parse(flashvars.slice(7, p_width_index));
-                var video_data = obj.video_data[0];
-                if (typeof video_data == 'undefined') {
-                    video_data = obj.video_data.progressive[0];
-                }
+                var video_data = obj.video_data.progressive;
 
-                //var title = video_data.video_id;
-                var title = document.querySelectorAll('h2.uiHeaderTitle')[0].innerText;
+                //console.log(video_data);
+                
+                var title = video_data.video_id;
+                //var title = document.querySelectorAll('h2.uiHeaderTitle')[0].innerText;
 
 
-                var sidebar = document.getElementById('fbPhotoPageActions');
+                //var sidebar = document.getElementById('fbPhotoPageActions');
 
                 // High Def
                 if (video_data.hd_src)
@@ -57,7 +73,7 @@
                     hd_link.innerHTML = 'Download HD Video';
                     hd_link.className = 'fbPhotosPhotoActionsItem fb_download_link_ethaizone';
                     hd_link.download = title + '_hd.mp4';
-                    sidebar.appendChild(hd_link);
+                    base.appendChild(document.createElement('span').appendChild(hd_link));
                 }
 
                 // Low Def
@@ -68,7 +84,7 @@
                     sd_link.innerHTML = 'Download SD Video';
                     sd_link.className = 'fbPhotosPhotoActionsItem fb_download_link_ethaizone';
                     sd_link.download = title + '_sd.mp4';
-                    sidebar.appendChild(sd_link);
+                    base.appendChild(document.createElement('span').appendChild(sd_link));
                 }
 
                 found = true;
@@ -76,11 +92,10 @@
 
         } // end loop
 
-        if (!found && counter > 20) {
-            var sidebar = document.getElementById('fbPhotoPageActions');
+        if (!found && counter > 20) {            
             var not_found = document.createElement('span');
             not_found.innerHTML = 'No download link :(';
-            sidebar.appendChild(not_found);
+            base.appendChild(not_found);
         }
         
         return checkDownloadLinkExists();
