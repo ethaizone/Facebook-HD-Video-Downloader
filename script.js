@@ -15,7 +15,7 @@
 // @include     https://facebook.com/*/videos/*
 // @include     https://*.facebook.com/*/videos/*
 // @include     https://*.facebook.com/*
-// @version 0.1.6.1
+// @version 0.1.6.3
 // @namespace https://greasyfork.org/users/3747
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // ==/UserScript==
@@ -365,21 +365,21 @@ var css = "\
     var delay = 1500;
     function doExec() {
         if (jQuery('#mainContainer').length < 1) {
-            log('No maincontaimer.');
+            // log('No maincontaimer.');
             return false;
         }
         counter++;
         try {
             var found = renderFBDownloader(counter);
-            if (found !== 0 && delay == 1000) {
-                delay = 3000;
-                log('First found. Decrease delay. ('+ delay +')');
-            }
+            // if (found !== 0 && delay == 1000) {
+            //     delay = 3000;
+            //     log('First found. Decrease delay. ('+ delay +')');
+            // }
 
-            if (counter > 10 && delay == 1000) {
-                delay = 5000;
-                log('Too long and not found anything. Decrease delay. ('+ delay +')');
-            }
+            // if (counter > 10 && delay == 1000) {
+            //     delay = 5000;
+            //     log('Too long and not found anything. Decrease delay. ('+ delay +')');
+            // }
             // if (counter < 30) {
             //     setTimeout(doExec, delay);
             // }
@@ -399,6 +399,7 @@ var css = "\
         console.log("[FB Video Downloader] " + msg);
     }
     if (doExec()) {
-        log("First start.");
+        var myVersion = GM_info.script.version;
+        log("First start. Version "+myVersion);
     }
 })();
