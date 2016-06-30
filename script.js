@@ -15,7 +15,7 @@
 // @include     https://facebook.com/*/videos/*
 // @include     https://*.facebook.com/*/videos/*
 // @include     https://*.facebook.com/*
-// @version 0.1.6
+// @version 0.1.6.1
 // @namespace https://greasyfork.org/users/3747
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // ==/UserScript==
@@ -366,7 +366,7 @@ var css = "\
     function doExec() {
         if (jQuery('#mainContainer').length < 1) {
             log('No maincontaimer.');
-            return;
+            return false;
         }
         counter++;
         try {
@@ -390,12 +390,15 @@ var css = "\
             console.log(e);
             //setTimeout(doExec, 1000);
         }
+
+        return true;
     }
 
     function log(msg) {
         //alert(msg);
         console.log("[FB Video Downloader] " + msg);
     }
-    log("First start.");
-    doExec();
+    if (doExec()) {
+        log("First start.");
+    }
 })();
