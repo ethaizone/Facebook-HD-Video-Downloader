@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name            Facebook HD Video Downloader
-// @description     Adds a download link for Facebook videos. Works for HD videos. Fork from styfle version. NEW!! Work on all page.
+// @description     Adds a download link for Facebook videos. Works for HD videos. NEW!! Work on all page.
 // @author          EThaiZone
 // @include     http://facebook.com/video.php*
 // @include     http://*.facebook.com/video.php*
@@ -15,7 +15,7 @@
 // @include     https://facebook.com/*/videos/*
 // @include     https://*.facebook.com/*/videos/*
 // @include     https://*.facebook.com/*
-// @version 0.1.6.3
+// @version 0.1.6.4
 // @namespace https://greasyfork.org/users/3747
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // ==/UserScript==
@@ -302,49 +302,43 @@ var css = "\
                 link.append(iconDownload[0].outerHTML);
                 link.append('&nbsp;');
 
+                var labelText = null;
+                var downloadUrl = null;
+                var filename = null;
+
                 // High Def
-                if (typeof video_data.hd_src != 'undefined' && video_data.hd_src)
-                {
-                    link.append('<span class="status">Download (HD)</span>');
+                if (typeof video_data.hd_src != 'undefined' && video_data.hd_src) {
+                    labelText = 'Download (HD)';
+                    filename = title + '_hd.mp4';
+                    downloadUrl = video_data.hd_src;
+                } else if (typeof video_data.sd_src != 'undefined' && video_data.sd_src) {
+                    labelText = 'Download (SD)';
+                    filename = title + '_sd.mp4';
+                    downloadUrl = video_data.sd_src;
+                }
+
+                if (downloadUrl) {
+                    link.append('<span class="status">' + labelText + '</span>');
+                    link.prop('download', filename);
+                    link.prop('href', downloadUrl);
+                    link.prop('target', '_blank');
                     link.on('click', function(){
                         if (link.data('dl') == true) {
                             alert('It\'s downloading. Please wait.');
                             return;
                         }
-                        link.find('.status').text('Downloading...');
-                        alert('Download in backgrond. Please wait a minute...');
-                        link.data('dl', true);
-                        var x=new XMLHttpRequest();
-                            x.open("GET", video_data.hd_src, true);
-                            x.responseType = 'blob';
-                            x.onload=function(e){
-                                link.data('dl', false);
-                                link.find('.status').text('Download (HD)');
-                                download(x.response, title + '_hd.mp4', x.response.type );
-                            };
-                            x.send();
-                    });
-                    insertAfter(link[0], videoElements[i]);
-                } else if (typeof video_data.sd_src != 'undefined' && video_data.sd_src)
-                {
-                    link.append('<span class="status">Download (SD)</span>');
-                    link.on('click', function(){
-                        if (link.data('dl') == true) {
-                            alert('It\'s downloading. Please wait.');
-                            return;
-                        }
-                        link.find('.status').text('Downloading...');
-                        alert('Download in backgrond. Please wait a minute...');
-                        link.data('dl', true);
-                        var x=new XMLHttpRequest();
-                            x.open("GET", video_data.sd_src, true);
-                            x.responseType = 'blob';
-                            x.onload=function(e){
-                                link.data('dl', false);
-                                link.find('.status').text('Download (SD)');
-                                download(x.response, title + '_sd.mp4', x.response.type );
-                            };
-                            x.send();
+                        // link.find('.status').text('Downloading...');
+                        // alert('Download in backgrond. Please wait a minute...');
+                        // link.data('dl', true);
+                        // var x=new XMLHttpRequest();
+                        //     x.open("GET", downloadUrl, true);
+                        //     x.responseType = 'blob';
+                        //     x.onload=function(e){
+                        //         link.data('dl', false);
+                        //         link.find('.status').text(labelText);
+                        //         download(x.response, filename, x.response.type );
+                        //     };
+                        //     x.send();
                     });
                     insertAfter(link[0], videoElements[i]);
                 } else {
