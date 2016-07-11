@@ -15,7 +15,7 @@
 // @include     https://facebook.com/*/videos/*
 // @include     https://*.facebook.com/*/videos/*
 // @include     https://*.facebook.com/*
-// @version 0.1.6.6
+// @version 0.1.6.7
 // @namespace https://greasyfork.org/users/3747
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // ==/UserScript==
@@ -55,18 +55,24 @@ var css = "\
     background: white;\
     border-radius: 4px;\
     opacity: 0.5;\
-    transition: opacity .25s ease-in-out;\
-    -moz-transition: opacity .25s ease-in-out;\
-    -webkit-transition: opacity .25s ease-in-out;\
+    transition: opacity 1s, max-width 1s ease-in-out;\
+    -moz-transition: opacity 1s, max-width 1s ease-in-out;\
+    -webkit-transition: opacity 1s, max-width 1s ease-in-out;\
     color: black !important;\
     text-decoration: none;\
     display: block;\
+    height: 1.2em;\
+    overflow: hidden;\
+    text-align: center;\
+    max-width: 1em;\
+    white-space: nowrap;\
 }\
 span[display=\"inline\"] .dl_container {\
     margin: 5px 30px 0 0;\
     display: none !important;\
 }\
 .dl_container:hover {\
+    max-width: 140px;\
     opacity: 1;\
     text-decoration: none;\
 }\
@@ -164,14 +170,7 @@ span[display=\"inline\"] .dl_container {\
                     link.prop('download', filename);
                     link.prop('href', downloadUrl);
                     link.prop('target', '_blank');
-                    // link.hide();
                     insertAfter(link[0], videoElements[i]);
-                    // videoElements[i].parentElement.addEventListener("mouseover", function(){
-                    //     link.show();
-                    // });
-                    // videoElements[i].parentElement.addEventListener("mouseout", function(){
-                    //     link.hide();
-                    // });
                 } else {
                     log('Something wrong in video_data.');
                     console.log(video_data);
