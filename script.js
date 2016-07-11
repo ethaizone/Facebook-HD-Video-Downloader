@@ -15,7 +15,7 @@
 // @include     https://facebook.com/*/videos/*
 // @include     https://*.facebook.com/*/videos/*
 // @include     https://*.facebook.com/*
-// @version 0.1.6.5
+// @version 0.1.6.6
 // @namespace https://greasyfork.org/users/3747
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // ==/UserScript==
@@ -165,7 +165,7 @@ span[display=\"inline\"] .dl_container {\
                     link.prop('href', downloadUrl);
                     link.prop('target', '_blank');
                     // link.hide();
-                    // insertAfter(link[0], videoElements[i]);
+                    insertAfter(link[0], videoElements[i]);
                     // videoElements[i].parentElement.addEventListener("mouseover", function(){
                     //     link.show();
                     // });
